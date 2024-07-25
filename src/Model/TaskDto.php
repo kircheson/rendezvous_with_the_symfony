@@ -6,55 +6,57 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class TaskDto
 {
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private ?string $title = null;
+
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private ?string $description = null;
+
+    #[Assert\NotNull]
+    private ?int $userId = null;
+
     public function __construct(
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 255)]
-        public string $title,
-
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 255)]
-        public string $description,
-
-        #[Assert\NotBlank]
-        #[Assert\Length(max: 255)]
-        #[Assert\Email(['message' => 'Email "{{ value }}" некорректный'])]
-        public string $email,
+        ?string $title = null,
+        ?string $description = null,
+        ?int $userId = null,
     ) {
+        $this->title = $title;
+        $this->description = $description;
+        $this->userId = $userId;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getEmail(): string
+    public function getUserId(): ?int
     {
-        return $this->email;
+        return $this->userId;
     }
 
-    public function setEmail(string $email): static
+    public function setUserId(?int $userId): self
     {
-        $this->email = $email;
-
+        $this->userId = $userId;
         return $this;
     }
 }

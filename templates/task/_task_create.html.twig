@@ -23,8 +23,13 @@
             <textarea id="description" name="description"></textarea>
         </div>
         <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+            <label for="user">Пользователь</label>
+            <select id="user" name="user_id" required>
+                <option value="">Выберите пользователя</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit">Создать</button>
     </form>

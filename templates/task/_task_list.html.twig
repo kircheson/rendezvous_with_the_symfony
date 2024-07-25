@@ -6,13 +6,13 @@
     {% if tasks is empty %}
         <p>Нет задач для отображения.</p>
     {% else %}
-        <table>
+        <table class="table">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Заголовок</th>
                 <th>Описание</th>
-                <th>Email</th>
+                <th>Пользователь</th>
                 <th>Дата создания</th>
                 <th>Действия</th>
             </tr>
@@ -23,14 +23,13 @@
                     <td>{{ task.id }}</td>
                     <td>{{ task.title }}</td>
                     <td>{{ task.description }}</td>
-                    <td>{{ task.email }}</td>
+                    <td>{{ task.user.name }}</td>
                     <td>{{ task.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>
-                        <a href="{{ path('task_edit', {'id': task.id}) }}">Редактировать</a>
-                        <form action="{{ path('task_delete', {'id': task.id}) }}" method="post"
-                              style="display: inline-block;">
+                        <a href="{{ path('task_edit', {'id': task.id}) }}" class="btn btn-primary">Редактировать</a>
+                        <form action="{{ path('task_delete', {'id': task.id}) }}" method="post" class="d-inline-block">
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить задачу?')">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить задачу?')">
                                 Удалить
                             </button>
                         </form>

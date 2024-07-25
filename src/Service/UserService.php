@@ -71,4 +71,14 @@ class UserService
 
         return $user;
     }
+
+    public function find(?int $userId): ?User
+    {
+        if ($userId === null) {
+            return null;
+        }
+
+        return $this->em->getRepository(User::class)->find($userId);
+    }
+
 }

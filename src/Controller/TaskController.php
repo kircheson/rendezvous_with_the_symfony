@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\TaskDto;
 use App\Service\TaskService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,13 +21,15 @@ class TaskController extends AbstractController
     }
 
     #[Route('/create_task', name: 'task_create_get', methods: ['GET'])]
-    public function createTaskGet(): Response
+    public function createTaskGet(UserService $userService): Response
     {
-        return $this->render('task/_task_create.html.twig');
+        $users = $userService->getAll();
+
+        return $this->render('task/_task_create.html.twig', ['users' => $users]);
     }
 
     #[Route('/create_task', name: 'task_create_post', methods: ['POST'])]
-    public function createTaskPost(#[MapRequestPayload] TaskDto $createTaskDto, TaskService $taskService): Response
+    public function createTaskPost(#[MapRequestPayload] TaskDto $createTaskDto, TaskService $taskService, UserService $userService): Response
     {
         $task = $taskService->create($createTaskDto);
 
@@ -44,11 +47,12 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/edit/{id}', name: 'task_edit', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function edit(int $id, TaskService $taskService): Response
+    public function edit(int $id, TaskService $taskService,UserService $userService): Response
     {
+        $users = $userService->getAll();
         $task = $taskService->get($id);
 
-        return $this->render('task/_task_edit.html.twig', ['task' => $task]);
+        return $this->render('task/_task_edit.html.twig', ['task' => $task, 'users' => $users]);
     }
 
     #[Route('/tasks/update/{id}', name: 'task_update', requirements: ['id' => '\d+'], methods: ['POST'])]
